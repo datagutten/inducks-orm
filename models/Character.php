@@ -23,6 +23,19 @@ class Character
     #[ORM\Column(type: 'string')]
     private string $charactername;
 
+    #[ORM\Column(type: 'string')]
+    private string $official;
+
+    #[ORM\Column(type: 'string')]
+    private string $onetime;
+
+    #[ORM\Column(type: 'string')]
+    private string $heroonly;
+
+    #[ORM\Column(type: 'string')]
+    private string $charactercomment;
+
+
     /**
      * @var PersistentCollection<int, CharacterName>
      */
@@ -55,5 +68,25 @@ class Character
             }
         }
         throw new EntityNotFoundException('Localized name not found');
+    }
+
+    public function getOfficial(): bool
+    {
+        return $this->official == 'Y';
+    }
+
+    public function getOnetime(): bool
+    {
+        return $this->onetime == 'Y';
+    }
+
+    public function getHeroOnly(): bool
+    {
+        return $this->heroonly == 'Y';
+    }
+
+    public function getCharacterComment(): string
+    {
+        return $this->charactercomment;
     }
 }
