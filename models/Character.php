@@ -42,6 +42,12 @@ class Character
     #[ORM\OneToMany(mappedBy: 'character', targetEntity: CharacterName::class)]
     private PersistentCollection $names;
 
+    /**
+     * @var PersistentCollection<int, EntryCharacterName>
+     */
+    #[ORM\OneToMany(mappedBy: 'character', targetEntity: EntryCharacterName::class)]
+    private PersistentCollection $entryNames;
+
     function getCharactercode(): string
     {
         return $this->charactercode;
@@ -88,5 +94,10 @@ class Character
     public function getCharacterComment(): string
     {
         return $this->charactercomment;
+    }
+
+    public function getEntryNames(): PersistentCollection
+    {
+        return $this->entryNames;
     }
 }
