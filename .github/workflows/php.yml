@@ -33,6 +33,7 @@ jobs:
       - name: Load database
         run: mysql ${{ env.DB_DATABASE }} < coa.sql.gz
         working-directory: tests/test_data
+        shell: bash
 
       - name: Set MariaDB password
         run: mysql -u root -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${{ env.DB_PASSWORD }}';"
