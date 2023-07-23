@@ -52,6 +52,9 @@ class Character
     #[ORM\OneToMany(mappedBy: 'character', targetEntity: Appearance::class)]
     private PersistentCollection $appearances;
 
+    #[ORM\OneToMany(mappedBy: 'character', targetEntity: UniverseCharacter::class)]
+    private PersistentCollection $universes;
+
     function getCharactercode(): string
     {
         return $this->charactercode;
@@ -140,5 +143,13 @@ class Character
             }
         }
         return $lowest_app;
+    }
+
+    /**
+     * @return PersistentCollection<int, UniverseCharacter>
+     */
+    public function getUniverses(): PersistentCollection
+    {
+        return $this->universes;
     }
 }

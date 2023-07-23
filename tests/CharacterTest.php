@@ -1,8 +1,9 @@
 <?php
 
-
 use datagutten\InducksORM\models\Appearance;
 use datagutten\InducksORM\models\Character;
+use datagutten\InducksORM\models\Universe;
+use datagutten\InducksORM\models\UniverseCharacter;
 use Doctrine\ORM\EntityNotFoundException;
 use PHPUnit\Framework\TestCase;
 
@@ -45,5 +46,16 @@ class CharacterTest extends TestCase
         $appearance = $character->getFirstAppearance();
         $story = $appearance->getStoryversion()->getStory();
         $this->assertEquals('I TL  516-A', $story->getStorycode());
+    }
+
+    public function testUniverses()
+    {
+        $character = InducksORMBootstrap()->find(Character::class, 'MM');
+        $universes = $character->getUniverses();
+        /** @var UniverseCharacter $universe */
+        $universe = $universes->first();
+        $this->assertInstanceOf(UniverseCharacter::class, $universes->first());
+        $this->assertInstanceOf(Universe::class, $universe->getUniverse());
+        $this->assertInstanceOf(Character::class, $universe->getCharacter());
     }
 }
