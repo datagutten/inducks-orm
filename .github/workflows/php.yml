@@ -29,9 +29,11 @@ jobs:
           database: ${{ env.DB_DATABASE }}
 
       - uses: actions/checkout@v3
+        with:
+          lfs: true
 
       - name: Load database
-        run: mysql ${{ env.DB_DATABASE }} < coa.sql.gz
+        run: zcat coa.sql.gz | mysql ${{ env.DB_DATABASE }}
         working-directory: tests/test_data
         shell: bash
 
