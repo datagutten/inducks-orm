@@ -3,3 +3,4 @@ config_db.php
 /vendor/
 /.idea/
 /.phpunit.result.cache
+/.phpunit.cache
