@@ -70,6 +70,11 @@ class StoryVersion
         return $this->storyversioncode;
     }
 
+    function getStoryCode(): string
+    {
+        return $this->storycode;
+    }
+
     function getStory(): Story
     {
         if (!empty($this->storycode))
