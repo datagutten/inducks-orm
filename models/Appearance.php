@@ -24,7 +24,7 @@ class Appearance
     #[ORM\Id]
     private Character $character;
 
-    #[ORM\Column(type: 'int')]
+    #[ORM\Column(type: 'integer')]
     #[ORM\Id]
     private int $number;
 
@@ -41,11 +41,17 @@ class Appearance
         return $this->character;
     }
 
+    /**
+     * @return int The actual number of characters, in case of e.g. the Beagle Boys
+     */
     function getNumber(): int
     {
         return $this->number;
     }
 
+    /**
+     * @return string Remarks about the appearance, like 'cameo', '1st', 'photo'.
+     */
     function getAppearancecomment(): string
     {
         return $this->appearancecomment;
