@@ -44,4 +44,12 @@ class StoryReference
     {
         return $this->toStory;
     }
+
+    /**
+     * @return ReferenceReason
+     */
+    public function getReason(): ReferenceReason
+    {
+        return $this->reason;
+    }
 }
