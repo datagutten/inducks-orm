@@ -32,6 +32,9 @@ jobs:
         with:
           lfs: true
 
+      - name: Checkout LFS
+        run: git lfs checkout
+
       - name: Load database
         run: zcat coa.sql.gz | mysql ${{ env.DB_DATABASE }}
         working-directory: tests/test_data
