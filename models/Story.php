@@ -64,11 +64,17 @@ class Story
         return $this->storycode;
     }
 
+    /**
+     * @return StoryVersion The original storyversion
+     */
     function getOriginalstoryversion(): StoryVersion
     {
         return $this->originalstoryversion;
     }
 
+    /**
+     * @return string The date that the story was actually made. Usually we only know an approximate date, if any.
+     */
     function getCreationdate(): string
     {
         return $this->creationdate;
@@ -79,13 +85,16 @@ class Story
         return $this->firstpublicationdate;
     }
 
+    /**
+     * @return string The end date that the story was first published (in case of newspaper strips). Only filled in if a newspaper strip was printed over more than one day
+     */
     function getEndpublicationdate(): string
     {
         return $this->endpublicationdate;
     }
 
     /**
-     * @return string Story original title
+     * @return string The original title of the story, given by the writer, artist, or editor
      */
     function getTitle(): string
     {
@@ -108,11 +117,17 @@ class Story
         return $this->storycomment;
     }
 
+    /**
+     * @return int The number of parts the story was designed in (this can usually be seen from the recap panels)
+     */
     function getStoryparts(): int
     {
         return $this->storyparts;
     }
 
+    /**
+     * @return Issue The issuecode where this item is defined in the input (if empty: story file)
+     */
     function getIssueofstoryitem(): Issue
     {
         return $this->issueofstoryitem;
