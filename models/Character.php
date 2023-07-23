@@ -67,10 +67,21 @@ class Character
         return $this->names;
     }
 
-    function getLocalizedName(string $lang, bool $preferred = true): CharacterName
+    /**
+     * Get character localized name
+     * @param string $languageCode Language code
+     * @param bool $preferred Get the preferred name
+     * @return CharacterName CharacterName object
+     * @throws EntityNotFoundException Name not found
+     */
+    function getLocalizedName(string $languageCode, bool $preferred = true): CharacterName
     {
         $preferred = $preferred ? 'Y' : 'N';
-        $names = $this->names->matching(Criteria::create()->where(Criteria::expr()->eq('languagecode', $lang))->andWhere(Criteria::expr()->eq('preferred', $preferred)));
+        $names = $this->names->matching(Criteria::create()->
+        where(Criteria::expr()->eq('languagecode', $languageCode))->
+        andWhere(Criteria::expr()->eq('preferred', $preferred)));
+        if (empty($names->first()))
+            throw new EntityNotFoundException('Localized name not found');
         return $names->first();
     }
 
@@ -116,7 +127,7 @@ class Character
             $story = $storyversion->getStory();
             try
             {
-                $date_obj = $story->getFirstpublicationdate_obj();
+                $date_obj = $story->getFirstPublicationDate_obj();
             }
             catch (EntityNotFoundException $e)
             {
