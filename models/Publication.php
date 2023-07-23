@@ -19,6 +19,10 @@ class Publication
     #[ORM\Column(type: 'string')]
     private string $languagecode;
 
+    #[ORM\ManyToOne(targetEntity: Language::class, inversedBy: 'publications')]
+    #[ORM\JoinColumn(name: 'languagecode', referencedColumnName: 'languagecode')]
+    private Language $language;
+
     #[ORM\Column(type: 'string')]
     private string $title;
 
@@ -59,6 +63,11 @@ class Publication
     function getLanguagecode(): string
     {
         return $this->languagecode;
+    }
+
+    function getLanguage(): Language
+    {
+        return $this->language;
     }
 
     function getTitle(): string

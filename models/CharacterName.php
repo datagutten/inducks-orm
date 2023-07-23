@@ -29,6 +29,10 @@ class CharacterName
     #[ORM\JoinColumn(name: 'charactercode', referencedColumnName: 'charactercode')]
     private Character $character;
 
+    #[ORM\ManyToOne(targetEntity: Language::class, inversedBy: 'characterNames')]
+    #[ORM\JoinColumn(name: 'languagecode', referencedColumnName: 'languagecode')]
+    private Language $language;
+
     #[ORM\Column(type: 'string')]
     private string $preferred;
 
@@ -43,6 +47,11 @@ class CharacterName
     function getLanguagecode(): string
     {
         return $this->languagecode;
+    }
+
+    public function getLanguage(): Language
+    {
+        return $this->language;
     }
 
     function getCharactername(): string
