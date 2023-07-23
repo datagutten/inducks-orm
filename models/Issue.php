@@ -2,6 +2,7 @@
 
 namespace datagutten\InducksORM\models;
 
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\PersistentCollection;
@@ -47,6 +48,9 @@ class Issue
     #[ORM\Column(type: 'string')]
     private string $issuecomment;
 
+    #[ORM\OneToMany(mappedBy: 'issue', targetEntity: IssueJob::class)]
+    private PersistentCollection $jobs;
+
     /**
      * @var PersistentCollection<int, IssueURL>
      */
@@ -81,6 +85,14 @@ class Issue
             return sprintf('%s %s', $this->publication->getTitle(), $this->getIssuenumber());
         else
             return $this->title;
+    }
+
+    function getTitleFull(): string
+    {
+        if (empty($this->title))
+            return sprintf('%s %s', $this->publication->getTitle(), $this->getIssuenumber());
+        else
+            return sprintf('%s %s %s', $this->publication->getTitle(), $this->getIssuenumber(), $this->title);
     }
 
     function getSize(): string
@@ -164,5 +176,20 @@ class Issue
     public function getURL(): string
     {
         return sprintf('https://inducks.org/issue.php?c=%s', urlencode($this->issuecode));
+    }
+
+    /**
+     * @return IssueJob[]
+     */
+    public function getIndexers(): array
+    {
+        $criteria = Criteria::create()->where(Criteria::expr()->eq('inxtransletcol', 'i'));
+        $indexers = $this->jobs->matching($criteria);
+        return $indexers->getValues();
+    }
+
+    public function __toString(): string
+    {
+        return sprintf('%s %d', $this->publication->getTitle(), $this->issuenumber);
     }
 }
