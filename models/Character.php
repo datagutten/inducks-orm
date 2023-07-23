@@ -48,6 +48,9 @@ class Character
     #[ORM\OneToMany(mappedBy: 'character', targetEntity: EntryCharacterName::class)]
     private PersistentCollection $entryNames;
 
+    #[ORM\OneToMany(mappedBy: 'character', targetEntity: Appearance::class)]
+    private PersistentCollection $appearances;
+
     function getCharactercode(): string
     {
         return $this->charactercode;
@@ -99,5 +102,37 @@ class Character
     public function getEntryNames(): PersistentCollection
     {
         return $this->entryNames;
+    }
+
+    /**
+     * @return PersistentCollection
+     */
+    public function getAppearances(): PersistentCollection
+    {
+        return $this->appearances;
+    }
+
+    public function getFirstAppearance(): Appearance
+    {
+        /** @var Appearance $appearance */
+        foreach ($this->appearances->getIterator() as $appearance)
+        {
+            $storyversion = $appearance->getStoryversion();
+            $story = $storyversion->getStory();
+            try
+            {
+                $date_obj = $story->getFirstpublicationdate_obj();
+            }
+            catch (EntityNotFoundException $e)
+            {
+                continue;
+            }
+            if (empty($lowest) || $lowest > $date_obj->getTimestamp())
+            {
+                $lowest = $date_obj->getTimestamp();
+                $lowest_app = $appearance;
+            }
+        }
+        return $lowest_app;
     }
 }
