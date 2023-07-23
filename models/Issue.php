@@ -64,6 +64,9 @@ class Issue
     #[ORM\OrderBy(['position' => 'ASC'])]
     private PersistentCollection $entries;
 
+    #[ORM\OneToMany(mappedBy: 'issue', targetEntity: PublishingJob::class)]
+    private PersistentCollection $publishingJobs;
+
     function getIssuecode(): string
     {
         return $this->issuecode;
@@ -186,6 +189,11 @@ class Issue
         $criteria = Criteria::create()->where(Criteria::expr()->eq('inxtransletcol', 'i'));
         $indexers = $this->jobs->matching($criteria);
         return $indexers->getValues();
+    }
+
+    public function getPublishingJobs(): PersistentCollection
+    {
+        return $this->publishingJobs;
     }
 
     public function __toString(): string
