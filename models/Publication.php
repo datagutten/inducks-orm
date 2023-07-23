@@ -16,6 +16,10 @@ class Publication
     #[ORM\Column(type: 'string')]
     private string $countrycode;
 
+    #[ORM\ManyToOne(targetEntity: Country::class, inversedBy: 'publications')]
+    #[ORM\JoinColumn(name: 'countrycode', referencedColumnName: 'countrycode')]
+    private Country $country;
+
     #[ORM\Column(type: 'string')]
     private string $languagecode;
 
@@ -58,6 +62,11 @@ class Publication
     function getCountrycode(): string
     {
         return $this->countrycode;
+    }
+
+    function getCountry(): Country
+    {
+        return $this->country;
     }
 
     function getLanguagecode(): string
@@ -109,4 +118,8 @@ class Publication
         return $this->issues;
     }
 
+    public function __toString(): string
+    {
+        return sprintf('%s: %s', $this->getCountry(), $this->getTitle());
+    }
 }
