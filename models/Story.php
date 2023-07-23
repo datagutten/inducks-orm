@@ -53,6 +53,12 @@ class Story
     #[ORM\JoinColumn(name: 'storycode', referencedColumnName: 'storycode')]
     private HeroCharacter $hero;
 
+    #[ORM\OneToMany(mappedBy: 'fromStory', targetEntity: StoryReference::class)]
+    private PersistentCollection $referencesFrom;
+
+    #[ORM\OneToMany(mappedBy: 'toStory', targetEntity: StoryReference::class)]
+    private PersistentCollection $referencesTo;
+
     function getStorycode(): string
     {
         return $this->storycode;
@@ -120,5 +126,23 @@ class Story
     public function getHero(): Character
     {
         return $this->hero->getCharacter();
+    }
+
+    /**
+     * References from this story
+     * @return PersistentCollection
+     */
+    public function getReferencesFrom(): PersistentCollection
+    {
+        return $this->referencesFrom;
+    }
+
+    /**
+     * References to this story
+     * @return PersistentCollection
+     */
+    public function getReferencesTo(): PersistentCollection
+    {
+        return $this->referencesTo;
     }
 }
