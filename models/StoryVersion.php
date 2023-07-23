@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\PersistentCollection;
 
+
 /**
  * StoryVersion
  *
@@ -104,6 +105,11 @@ class StoryVersion
     }
 
     function getKind(): string
+    {
+        return $this->kind;
+    }
+
+    function getKindName(): string
     {
         return match ($this->kind)
         {
