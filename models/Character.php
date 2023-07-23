@@ -2,6 +2,7 @@
 
 namespace datagutten\InducksORM\models;
 
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\PersistentCollection;
@@ -66,17 +67,11 @@ class Character
         return $this->names;
     }
 
-    function getLocalizedName(string $lang, bool $preferred = true): string
+    function getLocalizedName(string $lang, bool $preferred = true): CharacterName
     {
         $preferred = $preferred ? 'Y' : 'N';
-        foreach ($this->names as $n)
-        {
-            if ($lang == $n->getLanguagecode() && $preferred == $n->getPreferred())
-            {
-                return $n->getCharactername();
-            }
-        }
-        throw new EntityNotFoundException('Localized name not found');
+        $names = $this->names->matching(Criteria::create()->where(Criteria::expr()->eq('languagecode', $lang))->andWhere(Criteria::expr()->eq('preferred', $preferred)));
+        return $names->first();
     }
 
     public function getOfficial(): bool
