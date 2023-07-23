@@ -2,9 +2,11 @@
 
 namespace datagutten\InducksORM\models;
 
+use DateTimeImmutable;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\PersistentCollection;
+use Exception;
 
 /**
  * Story
@@ -80,9 +82,33 @@ class Story
         return $this->creationdate;
     }
 
+    /**
+     * @return string The date that the story was first published
+     */
     function getFirstpublicationdate(): string
     {
         return $this->firstpublicationdate;
+    }
+
+    /**
+     * Get the date that the story was first published as a DateTimeImmutable object
+     * @return DateTimeImmutable The date that the story was first published
+     * @throws Exception
+     */
+    function getFirstPublicationDate_obj(): DateTimeImmutable
+    {
+        try
+        {
+            return new DateTimeImmutable($this->firstpublicationdate);
+        }
+        catch (Exception $e)
+        {
+            $year = preg_replace('#(\d{4})-Q\d#', '$1', $this->firstpublicationdate);
+            if ($year != $this->firstpublicationdate) //Pattern matched and did a replacement
+                return new DateTimeImmutable($year);
+            else //No match, re-throw the exception
+                throw $e;
+        }
     }
 
     /**
