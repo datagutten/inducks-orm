@@ -14,17 +14,20 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(readOnly: true)]
 class CharacterName
 {
+    function __construct(
+        #[ORM\Id, ORM\Column(type: 'string')]
+        private string $charactercode,
+        #[ORM\Id, ORM\Column(type: 'string')]
+        private string $languagecode,
+        #[ORM\Id, ORM\Column(type: 'string')]
+        private string $charactername,
+    )
+    {
+    }
+
     #[ORM\ManyToOne(targetEntity: Character::class, inversedBy: 'names')]
     #[ORM\JoinColumn(name: 'charactercode', referencedColumnName: 'charactercode')]
-    #[ORM\Id]
     private Character $character;
-
-    #[ORM\Column(type: 'string')]
-    #[ORM\Id]
-    private string $languagecode;
-
-    #[ORM\Column(type: 'string')]
-    private string $charactername;
 
     #[ORM\Column(type: 'string')]
     private string $preferred;
@@ -60,5 +63,10 @@ class CharacterName
     function getCharacternamecomment(): string
     {
         return $this->characternamecomment;
+    }
+
+    public function __toString(): string
+    {
+        return $this->charactername;
     }
 }
