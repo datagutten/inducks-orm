@@ -2,6 +2,7 @@
     "name": "datagutten/inducks-orm",
     "description": "Doctrine ORM classes for the Inducks database",
     "type": "library",
+    "license": "GPL-3.0-or-later",
     "require": {
         "doctrine/orm": "^2.15",
         "doctrine/dbal": "^3.6",
