@@ -105,7 +105,21 @@ class StoryVersion
 
     function getKind(): string
     {
-        return $this->kind;
+        return match ($this->kind)
+        {
+            'n' => 'normal',
+            'k' => 'newspaper strip',
+            'i' => 'illustration',
+            'c' => 'cover',
+            'f' => 'centerfold',
+            't' => 'text',
+            'a' => 'article',
+            'g' => 'game or puzzle',
+            's' => 'strange layout',
+            'L' => 'landscape painting',
+            'P' => 'portrait painting',
+            default => $this->kind,
+        };
     }
 
     function getRowsperpage(): int
