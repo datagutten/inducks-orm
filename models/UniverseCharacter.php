@@ -4,6 +4,7 @@ namespace datagutten\InducksORM\models;
 
 use Doctrine\ORM\Mapping as ORM;
 
+
 #[ORM\Table(name: 'inducks_ucrelation')]
 #[ORM\Entity(readOnly: true)]
 class UniverseCharacter
@@ -55,5 +56,10 @@ class UniverseCharacter
     public function getCharacter(): Character
     {
         return $this->character;
+    }
+
+    public function __toString(): string
+    {
+        return $this->character->getCharactername();
     }
 }
