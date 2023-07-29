@@ -19,7 +19,7 @@ class LanguageName
     }
 
     #[ORM\ManyToOne(targetEntity: Language::class, inversedBy: 'names')]
-    #[ORM\JoinColumn(name: 'desclanguagecode', referencedColumnName: 'languagecode')]
+    #[ORM\JoinColumn(name: 'languagecode', referencedColumnName: 'languagecode')]
     private Language $language;
 
     #[ORM\Column(type: 'string')]

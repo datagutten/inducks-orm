@@ -3,6 +3,7 @@
 namespace datagutten\InducksORM\models;
 
 use Doctrine\Common\Collections\Criteria;
+use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\PersistentCollection;
 
@@ -73,9 +74,17 @@ class Language
         return $this->names;
     }
 
-    public function getLocalizedName($languageCode): string
+    /**
+     * Get localized language name
+     * @param string $languageCode
+     * @return string
+     * @throws EntityNotFoundException
+     */
+    public function getLocalizedName(string $languageCode): string
     {
-        $names = $this->names->matching(Criteria::create()->where(Criteria::expr()->eq('languagecode', $languageCode)));
+        $names = $this->names->matching(Criteria::create()->where(Criteria::expr()->eq('desclanguagecode', $languageCode)));
+        if ($names->count() == 0)
+            throw new EntityNotFoundException('Localization not found');
         return $names->first()->getLanguageName();
     }
 }
