@@ -2,11 +2,11 @@
 
 namespace datagutten\InducksORM\models;
 
-
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Table(name: 'inducks_universe')]
+
+#[ORM\Table(name: 'inducks_universename')]
 #[ORM\Entity(readOnly: true)]
 class UniverseName
 {
@@ -23,7 +23,7 @@ class UniverseName
     #[ORM\JoinColumn(name: 'universecode', referencedColumnName: 'universecode')]
     private Universe $universe;
 
-    #[ORM\ManyToOne(targetEntity: Universe::class)]
+    #[ORM\ManyToOne(targetEntity: Language::class)]
     #[ORM\JoinColumn(name: 'languagecode', referencedColumnName: 'languagecode')]
     private Language $language;
 
@@ -52,6 +52,11 @@ class UniverseName
     public function getUniverse(): Universe
     {
         return $this->universe;
+    }
+
+    public function getLanguageCode(): string
+    {
+        return $this->languagecode;
     }
 
     /**
