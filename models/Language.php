@@ -2,8 +2,10 @@
 
 namespace datagutten\InducksORM\models;
 
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\PersistentCollection;
+
 
 #[ORM\Entity(readOnly: true)]
 #[ORM\Table(name: 'inducks_language')]
@@ -24,6 +26,9 @@ class Language
 
     #[ORM\OneToMany(mappedBy: 'language', targetEntity: CharacterName::class)]
     private PersistentCollection $characterNames;
+
+    #[ORM\OneToMany(mappedBy: 'language', targetEntity: LanguageName::class)]
+    private PersistentCollection $names;
 
     public function getCode(): string
     {
@@ -61,5 +66,16 @@ class Language
     public function __toString(): string
     {
         return $this->languagename;
+    }
+
+    public function getNames(): PersistentCollection
+    {
+        return $this->names;
+    }
+
+    public function getLocalizedName($languageCode): string
+    {
+        $names = $this->names->matching(Criteria::create()->where(Criteria::expr()->eq('languagecode', $languageCode)));
+        return $names->first()->getLanguageName();
     }
 }
