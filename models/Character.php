@@ -55,6 +55,12 @@ class Character
     #[ORM\OneToMany(mappedBy: 'character', targetEntity: UniverseCharacter::class)]
     private PersistentCollection $universes;
 
+    #[ORM\OneToMany(mappedBy: 'characterFrom', targetEntity: CharacterReference::class)]
+    private PersistentCollection $referencesFrom;
+
+    #[ORM\OneToMany(mappedBy: 'characterTo', targetEntity: CharacterReference::class)]
+    private PersistentCollection $referencesTo;
+
     function getCharactercode(): string
     {
         return $this->charactercode;
@@ -151,5 +157,28 @@ class Character
     public function getUniverses(): PersistentCollection
     {
         return $this->universes;
+    }
+
+    /**
+     * Characters this character refers to
+     * @return PersistentCollection<int, CharacterReference>
+     */
+    public function getReferencesFrom(): PersistentCollection
+    {
+        return $this->referencesFrom;
+    }
+
+    /**
+     * Characters that refers to this character
+     * @return PersistentCollection<int, CharacterReference>
+     */
+    public function getReferencesTo(): PersistentCollection
+    {
+        return $this->referencesTo;
+    }
+
+    public function __toString(): string
+    {
+        return $this->charactername;
     }
 }
