@@ -64,6 +64,9 @@ class Issue
     #[ORM\OrderBy(['position' => 'ASC'])]
     private PersistentCollection $entries;
 
+    #[ORM\OneToMany(mappedBy: 'issue', targetEntity: IssueDate::class)]
+    private PersistentCollection $dates;
+
     #[ORM\OneToMany(mappedBy: 'issue', targetEntity: PublishingJob::class)]
     private PersistentCollection $publishingJobs;
 
@@ -195,6 +198,11 @@ class Issue
         $criteria = Criteria::create()->where(Criteria::expr()->eq('inxtransletcol', 'i'));
         $indexers = $this->jobs->matching($criteria);
         return $indexers->getValues();
+    }
+
+    public function getDates(): PersistentCollection
+    {
+        return $this->dates;
     }
 
     public function getPublishingJobs(): PersistentCollection
