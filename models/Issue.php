@@ -67,6 +67,12 @@ class Issue
     #[ORM\OneToMany(mappedBy: 'issue', targetEntity: PublishingJob::class)]
     private PersistentCollection $publishingJobs;
 
+    #[ORM\OneToMany(mappedBy: 'collected', targetEntity: IssueCollecting::class)]
+    private PersistentCollection $collected;
+
+    #[ORM\OneToMany(mappedBy: 'collecting', targetEntity: IssueCollecting::class)]
+    private PersistentCollection $collecting;
+
     function getIssuecode(): string
     {
         return $this->issuecode;
@@ -200,4 +206,23 @@ class Issue
     {
         return sprintf('%s %d', $this->publication->getTitle(), $this->issuenumber);
     }
+
+    /**
+     * Issues collected by this issue
+     * @return PersistentCollection
+     */
+    public function getCollected(): PersistentCollection
+    {
+        return $this->collected;
+    }
+
+    /**
+     * Issues collecting this issue
+     * @return PersistentCollection
+     */
+    public function getCollecting(): PersistentCollection
+    {
+        return $this->collecting;
+    }
+
 }
