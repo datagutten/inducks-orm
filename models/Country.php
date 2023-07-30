@@ -2,8 +2,11 @@
 
 namespace datagutten\InducksORM\models;
 
+use Doctrine\Common\Collections\Criteria;
+use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\PersistentCollection;
+
 
 #[ORM\Table(name: 'inducks_country')]
 #[ORM\Entity(readOnly: true)]
@@ -26,15 +29,16 @@ class Country
     #[ORM\OneToMany(mappedBy: 'country', targetEntity: Publication::class)]
     private PersistentCollection $publications;
 
+    #[ORM\OneToMany(mappedBy: 'country', targetEntity: CountryName::class)]
+    private PersistentCollection $names;
 
     public function getCountryCode(): string
     {
         return $this->countrycode;
     }
 
-    public function getCountryName($language = null): string
+    public function getCountryName(): string
     {
-        //TODO: Get localized name from CountryName
         return $this->countryname;
     }
 
@@ -51,6 +55,20 @@ class Country
     public function getPublications(): PersistentCollection
     {
         return $this->publications;
+    }
+
+    /**
+     * Get localized language name
+     * @param string $languageCode
+     * @return string
+     * @throws EntityNotFoundException
+     */
+    public function getLocalizedName(string $languageCode): string
+    {
+        $names = $this->names->matching(Criteria::create()->where(Criteria::expr()->eq('languagecode', $languageCode)));
+        if ($names->count() == 0)
+            throw new EntityNotFoundException('Localization not found');
+        return $names->first()->getCountryName();
     }
 
     public function __toString(): string
