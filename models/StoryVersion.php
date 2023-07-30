@@ -76,6 +76,22 @@ class StoryVersion
         return $this->storycode;
     }
 
+    /**
+     * @return bool Does the story version have a valid story relation?
+     */
+    function hasStory(): bool
+    {
+        try
+        {
+            $this->getStory()->getTitle();
+            return true;
+        }
+        catch (EntityNotFoundException)
+        {
+            return false;
+        }
+    }
+
     function getStory(): Story
     {
         if (!empty($this->storycode))
