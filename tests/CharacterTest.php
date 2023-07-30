@@ -7,6 +7,7 @@ use datagutten\InducksORM\models\UniverseCharacter;
 use Doctrine\ORM\EntityNotFoundException;
 use PHPUnit\Framework\TestCase;
 
+
 class CharacterTest extends TestCase
 {
 
@@ -37,6 +38,21 @@ class CharacterTest extends TestCase
         /** @var Appearance $appearance */
         $appearance = $character->getAppearances()->first();
         $this->assertEquals('I PK   68-1A', $appearance->getStoryversion()->getStoryCode());
+    }
+
+    public function testAppearancesBadStory()
+    {
+        $character = InducksORMBootstrap()->find(Character::class, 'Anacleto');
+        foreach ($character->getAppearances() as $key => $appearance)
+        {
+            $storyversion = $appearance->getStoryversion();
+            if (!$storyversion->hasStory())
+                continue;
+            $story = $storyversion->getStory();
+            $title = $story->getTitle();
+            $this->assertIsString($title);
+        }
+        $this->assertTrue(true); //If getTitle() does not throw an exception the test has succeeded
     }
 
     public function testFirstApperances()
