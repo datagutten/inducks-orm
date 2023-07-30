@@ -28,6 +28,7 @@ class StoryVersion
 
     #[ORM\ManyToOne(targetEntity: Story::class, inversedBy: 'versions')]
     #[ORM\JoinColumn(name: 'storycode', referencedColumnName: 'storycode')]
+    #[ORM\OrderBy(['firstpublicationdate'])]
     private Story $story;
 
     #[ORM\OneToMany(mappedBy: 'storyversion', targetEntity: Entry::class)]
@@ -172,6 +173,30 @@ class StoryVersion
     public function getJobs(): PersistentCollection
     {
         return $this->jobs;
+    }
+
+    /**
+     * @return PersistentCollection<int, StoryJob>
+     */
+    protected function plotWritArtInk($role): Collection
+    {
+        $criteria = Criteria::create()->where(Criteria::expr()->eq('plotwritartink', $role));
+        return $this->jobs->matching($criteria);
+    }
+
+    public function getArt(): Collection
+    {
+        return $this->plotWritArtInk('a');
+    }
+
+    public function getInk(): Collection
+    {
+        return $this->plotWritArtInk('i');
+    }
+
+    public function getWriter(): Collection
+    {
+        return $this->plotWritArtInk('w');
     }
 
     /**
