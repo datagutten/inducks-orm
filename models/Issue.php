@@ -2,6 +2,7 @@
 
 namespace datagutten\InducksORM\models;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\Mapping as ORM;
@@ -188,6 +189,15 @@ class Issue
     public function getURL(): string
     {
         return sprintf('https://inducks.org/issue.php?c=%s', urlencode($this->issuecode));
+    }
+
+    /**
+     * Get issue URLs
+     * @return PersistentCollection<int, IssueUrl>
+     */
+    public function getUrls(): PersistentCollection
+    {
+        return $this->urls;
     }
 
     /**
