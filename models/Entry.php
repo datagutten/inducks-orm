@@ -95,6 +95,9 @@ class Entry
     #[ORM\Column(type: 'string')]
     private string $entrycomment;
 
+    #[ORM\OneToMany(mappedBy: 'entry', targetEntity: LogoCharacter::class)]
+    private PersistentCollection $logoCharacters;
+
     function getEntrycode(): string
     {
         return $this->entrycode;
@@ -222,5 +225,10 @@ class Entry
             return $this->urls->first()->generateUrl();
 
         throw new EntityNotFoundException('Thumbnail URL not found');
+    }
+
+    public function getLogoCharacters(): PersistentCollection
+    {
+        return $this->logoCharacters;
     }
 }

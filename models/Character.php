@@ -61,6 +61,9 @@ class Character
     #[ORM\OneToMany(mappedBy: 'characterTo', targetEntity: CharacterReference::class)]
     private PersistentCollection $referencesTo;
 
+    #[ORM\OneToMany(mappedBy: 'character', targetEntity: LogoCharacter::class)]
+    private PersistentCollection $logos;
+
     function getCharactercode(): string
     {
         return $this->charactercode;
@@ -175,6 +178,11 @@ class Character
     public function getReferencesTo(): PersistentCollection
     {
         return $this->referencesTo;
+    }
+
+    public function getLogos(): PersistentCollection
+    {
+        return $this->logos;
     }
 
     public function __toString(): string
